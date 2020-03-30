@@ -1,7 +1,9 @@
-#!/bin/bash # based on a function found in bashtstyle-ng 5.0b1
+#!/bin/bash
+
+#fonction pre_prompt{{{
+# based on a function found in bashtstyle-ng 5.0b1
 # Original author Christopher Roy Bratusek (http://www.nanolx.org)
 # Last arranged by ayoli (http://ayozone.org) 2008-02-04 17:16:43 +0100 CET 
-
 function pre_prompt {
 newPWD="${PWD}"
 user="whoami"
@@ -21,12 +23,11 @@ then
     let cutt=3-${fillsize}
     newPWD="...$(echo -n $PWD | sed -e "s/\(^.\{$cutt\}\)\(.*\)/\2/")"
 fi
-
 }
-
 PROMPT_COMMAND=pre_prompt
+#}}}
 
-# Couleurs
+# Couleurs{{{
 export black="\[\033[0;38;5;0m\]"
 export red="\[\033[0;38;5;1m\]"
 export orange="\[\033[0;38;5;130m\]"
@@ -39,10 +40,13 @@ export smoothblue="\[\033[0;38;5;111m\]"
 export iceblue="\[\033[0;38;5;45m\]"
 export turqoise="\[\033[0;38;5;50m\]"
 export smoothgreen="\[\033[0;38;5;42m\]"
+#}}}
 
-# Cool extreme éditeur de texte
+# Cool extreme éditeur de texte{{{
 export EDITOR="/usr/bin/vim"
+#}}}
 
+# TERMCAPS{{{
 case "$TERM" in 
  xterm) 
     PS1="$cyan┌─($orange\u@\h \$(date \"+%a, %d %b %y\")$cyan)─\${fill}─($orange\$newPWD\
@@ -54,15 +58,16 @@ screen)
     ;;
     *)
     PS1="┌─(\u@\h \$(date \"+%a, %d %b %y\"))─\${fill}─(\$newPWD\)─┐\n└─(\$(date \"+%H:%M\") \#)─> " ;; esac
+#}}}
 
+# Bash history{{{
 # bash_history settings: size and no duplicates and no lines w/ lead spaces
 # Permet de ne pas mettre de doublons dans l'history de bash
 export HISTCONTROL="ignoreboth"
 export HISTSIZE=1024
+#}}}
 
-#####
-# Alias
-##########
+# Alias{{{
 
 alias ls='ls --color=auto'
 alias ll='ls -alF'
@@ -102,17 +107,15 @@ alias stk_rebashrc='source $HOME/.bashrc'
 alias stk_myip='dig +short myip.opendns.com @resolver1.opendns.com'
 
 # xpra réseau local
-stk_xpra_stkmint='xpra attach ssh:stkmint:100'
-stk_xpra_rig='xpra attch ssh:rig:100'
-stk_xpra_stkdeb='xpra attach ssh:stkdeb::100'
+alias stk_xpra_stkmint='xpra attach ssh:stkmint:100'
+alias stk_xpra_rig='xpra attch ssh:rig:100'
+alias stk_xpra_stkdeb='xpra attach ssh:stkdeb::100'
 
 # Efface une ligne dans un fichier ( argument : ligne(s) fichier)
-#sed -i '12d' ~/.ssh/known_hosts
+alias stk_rm_knowhosits='sed -i '12d' ~/.ssh/known_hosts'
+#}}}
 
-
-#####
-# Fonctions
-##########
+# Fonctions{{{
 
 # Recherche les fichiers installés avec pacman avec une recherche de description "pacman -Qs"
 stk_search_package_files() {
@@ -165,10 +168,9 @@ function parse_git_branch {
         git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1]/"
 }
 PS1="$PS1\$(parse_git_branch)"
+#}}}
 
-#####
-# Completions
-##########
+# Completions{{{
 
 # this, if it's already enabled in /etc/bash.bashrc).
 if [ -f /etc/bash_completion ]; then
@@ -179,10 +181,9 @@ complete -cf sudo
 complete -cf man
 complete -W "$(_ssh_completion)" ssh
 complete -W "$(_ssh_completion)" autossh
+#}}}
 
-#####
-# Variables
-##########
+# Variables{{{
 
 PATH=$HOME/bin:$PATH
 
@@ -204,29 +205,26 @@ XPERIA=YT910NH29M
 WIKO=0123456789ABCDEF
 ##### Autossh
 
-# Psa de monitoring
+# Pas de monitoring
 AUTOSSH_PORT=0
 
 # Desactive le truc verticale pour plus de fps...
 vblank_mode=0
+#}}}
 
-#####
-# Set environement
-###########
+# Set environement{{{
 
 # Mode vi
 set -o vi
+#}}}
 
-#####
-# Keybindings
-##########
+# Keybindings{{{
 
 # Retrouve le Ctrl+l pour effacer le terminal quan "set -o vi" et utilsé.
 bind -m vi-insert "\C-l":clear-screen
+#}}}
 
-#####
-# POWERLINE
-##########
+# POWERLINE{{{
 
 if [ -f `which powerline-daemon` ]; then
 	powerline-daemon -q
@@ -236,12 +234,14 @@ fi
 if [ -f /usr/local/lib/python2.7/dist-packages/poerline/bindings/bash/powerline.sh ]; then
 	source /usr/local/lib/python2.7/dist-packages/poerline/bindings/bash/powerline.sh
 fi
+#}}}
 
-#####
-# Logo
-#########
+# Logo{{{
 cat $HOME/.logo
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 source /home/skippy/.config/broot/launcher/bash/br
+#}}}
+
+// vim: fen fdm=marker fmr={{{,}}}

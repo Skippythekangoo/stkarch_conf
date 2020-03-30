@@ -177,7 +177,7 @@ map <S-Space> <c-u>
 "Exécute des commandes git
 map <LEADER>ga :!git add % <RETURN>
 map <LEADER>gc :!git commit -m 
-map <LEADER>gp :!git push origin<RETURN>
+map <LEADER>gp :!git push origin master<RETURN>
 "}}}
 
 " Powerline{{{
